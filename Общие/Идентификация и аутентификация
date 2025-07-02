@@ -1,0 +1,32 @@
+########## Настройка ssh ##########
+sudo nano /etc/ssh/sshd_config
+# Изменить параметры:
+# PermitRootLogin no
+# PasswordAuthentication no
+# ChallengeResponseAuthentication no
+sudo systemctl restart ssh
+
+########## Настройка длины и сложности пароля ##########
+sudo apt install libpam-pwquality
+sudo nano /etc/security/pwquality.conf
+# Изменить параметры:
+# minlen=8 
+# ucredit=-1 
+# lcredit=-1 
+# dcredit=-1 
+# ocredit=-1 
+# difok=4
+sudo nano /etc/pam.d/common-password 
+# добавить строчу password requisite pam_pwquality.so retry=3 minlen=8 ucredit=-1 lcredit=-1 dcredit=-1 ocredit=-1 difok=4 enforce_for_root
+# для истории паролей password  [success=1 default=ignore] pam_unix.so obscure use_authtok try_first_pass sha512 remember=24
+sudo nano /etc/login.defs
+# Изменить параметры:
+# PASS_MAX_DAYS   90
+# PASS_MIN_DAYS   1
+
+########## Блокировка после 10 неудачных входов ##########
+sudo nano /etc/pam.d/common-auth
+# В начало файла добавить
+# auth required pam_faillock.so preauth silent deny=10 unlock_time=600
+# auth [default=die] pam_faillock.so authfail deny=10 unlock_time=600
+# auth sufficient pam_faillock.so authsucc deny=10 unlock_time=600
