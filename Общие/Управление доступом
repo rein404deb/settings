@@ -1,0 +1,6 @@
+sudo groupadd sysadmins
+sudo groupadd secadmins
+sudo visudo
+# Полностю стираем файл и заменяем его 
+usermod -aG sysadmins shlimmer
+usermod -aG secadmins avakian
