@@ -1,0 +1,3 @@
+# Установить auditd; базовые правила: auth, sudo, policy-change, файлы /etc, загрузка модулей ядра. #
+sudo apt install auditd -y
+sudo nano /etc/audit/rules.d/audit.rules
