@@ -1,3 +1,15 @@
 # Установить auditd; базовые правила: auth, sudo, policy-change, файлы /etc, загрузка модулей ядра. #
 sudo apt install auditd -y
 sudo nano /etc/audit/rules.d/audit.rules
+# конфиг находится в виде файла отдельно #
+sudo auditctl -R /etc/audit/rules.d/audit.rules
+
+sudo nano /etc/audit/auditd.conf
+# max_log_file = 200, admin_space_left_action = halt 
+
+sudo nano /etc/systemd/journald.conf
+# Storage=persistent, ForwardToSyslog=yes
+
+sudo chown root:secadmins /var/log/audit
+sudo chmod 750 /var/log/audit
+sudo nano /etc/logrotate.d/audit
