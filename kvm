@@ -1,0 +1,27 @@
+sudo apt update
+sudo apt install qemu-kvm libvirt-daemon-system libvirt-clients virtinst virt-manager
+sudo usermod -aG libvirt,kvm $USER
+# Проверка работы
+lsmod | grep kvm
+systemctl status libvirtd
+groups $USER
+
+# Для доступа виртуальных машин к локальной сети используется мост (bridge). Его можно настроить вручную через Netplan или NetworkManager.
+# Пример создания моста br0 в Ubuntu:
+network:
+ version: 2
+ renderer: networkd
+ ethernets:
+  eno1: {dhcp4: no}
+ bridges:
+  br0:
+   interfaces: [eno1]
+   dhcp4: yes
+# Создание виртуальных машин
+virt-install \
+--name testvm \
+--memory 4096 \
+--vcpus 2 \
+--disk size=40 \
+--cdrom /iso/ubuntu.iso \
+--os-type linux
