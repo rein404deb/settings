@@ -1,2 +1,16 @@
 # Debian 12
 # Меняю айпишник
+hostnamectl set-hostname zv-dc-01.sport.mchs.ru
+# В ресолве прописываю днс
+nameserver 127.0.0.1
+search sport.mchs.ru
+
+# Устанавливаю пакеты
+apt update
+apt install -y samba krb5-user winbind smbclient dnsutils chrony
+
+systemctl stop smbd nmbd winbind
+systemctl disable smbd nmbd winbind
+mv /etc/samba/smb.conf /etc/samba/smb.conf.bak
+
+
