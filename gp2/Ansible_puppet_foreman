@@ -1,1 +1,17 @@
+apt update
+apt install -y curl wget gnupg lsb-release ca-certificates
+hostnamectl set-hostname че то там.sport.mchs.ru
+# Добавление репозитория foreman
+echo "deb http://deb.theforeman.org/ bookworm 3.10" > /etc/apt/sources.list.d/foreman.list
+wget -qO - https://deb.theforeman.org/pubkey.gpg | gpg --dearmor > /usr/share/keyrings/foreman.gpg
+apt update
+apt install -y foreman-installer
+# Развертка инсталлера
+foreman-installer \
+  --enable-foreman \
+  --enable-puppet \
+  --enable-foreman-proxy \
+  --enable-puppet-server \
+  --enable-foreman-plugin-ansible \
+  --enable-foreman-proxy-plugin-ansible
 
